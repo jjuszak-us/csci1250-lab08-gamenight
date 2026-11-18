@@ -37,7 +37,6 @@ System.Console.WriteLine($"Season total: {total}");
 
 //**** PART 2 ****
 int winningPointstongiht = 0;
-int season = 0;
 string winner = " ";
 
 for (int i = 0; i < players.Length; i++)
@@ -45,22 +44,28 @@ for (int i = 0; i < players.Length; i++)
     System.Console.WriteLine($"{players[i]}. How many points did you score tonight? ");
     int tonightsPoints = Convert.ToInt32(Console.ReadLine());
 
-    if(tonightsPoints > 20 || tonightsPoints < 0)
+    if(tonightsPoints > MAX_POINTS || tonightsPoints < 0)
     {
         System.Console.WriteLine("Points must be from 0 to 20");
         System.Console.WriteLine($"{players[i]}. How many points did you score tonight? ");
         tonightsPoints = Convert.ToInt32(Console.ReadLine());
-        season = Convert.ToInt32(points[i]) + tonightsPoints;
+        int season = Convert.ToInt32(points[i]) + tonightsPoints;
         points[i] = season.ToString();
        
     }
-    
+    else
+    {
+        int season = Convert.ToInt32(points[i]) + tonightsPoints;
+        points[i] = season.ToString(); 
+    }
+
     if(tonightsPoints > winningPointstongiht)
     {
         winningPointstongiht = tonightsPoints;
         winner = players[i];
     }
 }
+
 File.WriteAllLines(POINTS_FILE, points);
 System.Console.WriteLine($"Tonight's winner: {winner} with {winningPointstongiht}");
 
