@@ -35,6 +35,39 @@ for (int i = 0; i < players.Length; i++)
 }
 System.Console.WriteLine($"Season total: {total}");
 
+//**** PART 2 ****
+int winningPointstongiht = 0;
+int season = 0;
+string winner = " ";
+
+for (int i = 0; i < players.Length; i++)
+{
+    System.Console.WriteLine($"{players[i]}. How many points did you score tonight? ");
+    int tonightsPoints = Convert.ToInt32(Console.ReadLine());
+
+    if(tonightsPoints > 20 || tonightsPoints < 0)
+    {
+        System.Console.WriteLine("Points must be from 0 to 20");
+        System.Console.WriteLine($"{players[i]}. How many points did you score tonight? ");
+        tonightsPoints = Convert.ToInt32(Console.ReadLine());
+        season = Convert.ToInt32(points[i]) + tonightsPoints;
+        points[i] = season.ToString();
+       
+    }
+    
+    if(tonightsPoints > winningPointstongiht)
+    {
+        winningPointstongiht = tonightsPoints;
+        winner = players[i];
+    }
+}
+File.WriteAllLines(POINTS_FILE, points);
+System.Console.WriteLine($"Tonight's winner: {winner} with {winningPointstongiht}");
+
+
+
+
+
 
 
 
@@ -73,6 +106,32 @@ static int TotalPoints(string[] points)
     int d = Convert.ToInt32(points[3]);
 
     return a + b + c + d; 
+}
+
+static void PartOne()
+{
+string[] players = File.ReadAllLines(PLAYERS_FILE);
+string[] points = File.ReadAllLines(POINTS_FILE);
+int leader = LeaderIndex(points);
+int total = TotalPoints(points);
+
+System.Console.WriteLine("PLAYERS".PadRight(11) + "POINTS");
+for (int i = 0; i < players.Length; i++)
+{
+    System.Console.WriteLine($"{players[i].PadRight(11)}{points[i]}");
+}
+
+for (int i = 0; i < players.Length; i++)
+{
+    int point = Convert.ToInt32(points[i]);
+    string player = players[i];
+
+    if(leader == point)
+    {
+        System.Console.WriteLine($"Leader: {player} with {leader} ");
+    }
+}
+System.Console.WriteLine($"Season total: {total}");
 }
 
 // static string HistoryEntry(int night, string winner, int points)
