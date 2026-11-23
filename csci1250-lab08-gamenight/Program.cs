@@ -67,7 +67,7 @@ for (int i = 0; i < players.Length; i++)
 System.Console.WriteLine($"Season total: {total}");
 
 //**** PART 2 ****
-int winningPointstongiht = 0;
+int winningPointstonight = 0;
 string winner = " ";
 //using a for loop so the program assigns points to a specific name
 for (int i = 0; i < players.Length; i++)
@@ -77,11 +77,15 @@ for (int i = 0; i < players.Length; i++)
     //using if statements to make sure the value entered is within 0 and 20
     if(tonightsPoints > MAX_POINTS || tonightsPoints < 0)
     {
+        //forces the player to enter a valid number
+        do{
         System.Console.WriteLine("Points must be from 0 to 20");
         System.Console.WriteLine($"{players[i]}. How many points did you score tonight? ");
         tonightsPoints = Convert.ToInt32(Console.ReadLine());
+        }while(tonightsPoints > MAX_POINTS || tonightsPoints < 0);
         int season = Convert.ToInt32(points[i]) + tonightsPoints;
         points[i] = season.ToString();
+        
        
     }
     else
@@ -90,17 +94,17 @@ for (int i = 0; i < players.Length; i++)
         points[i] = season.ToString(); 
     }
 
-    if(tonightsPoints > winningPointstongiht)
+    if(tonightsPoints > winningPointstonight)
     {
-        winningPointstongiht = tonightsPoints;
+        winningPointstonight = tonightsPoints;
         winner = players[i];
     }
 }
 File.WriteAllLines(POINTS_FILE, points);
-System.Console.WriteLine($"Tonight's winner: {winner} with {winningPointstongiht}");
+System.Console.WriteLine($"Tonight's winner: {winner} with {winningPointstonight}");
 
 //**** PART 3 *****
-string[] entry = {HistoryEntry(night, winner, winningPointstongiht)};
+string[] entry = {HistoryEntry(night, winner, winningPointstonight)};
 
 File.AppendAllLines(HISTORY_FILE, entry);
 
