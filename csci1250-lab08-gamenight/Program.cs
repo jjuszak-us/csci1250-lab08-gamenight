@@ -1,4 +1,6 @@
 ﻿// Look for the data files next to the Program.cs, however the program is started.
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 
@@ -10,6 +12,27 @@ const string PLAYERS_FILE = "players.txt";
 const string POINTS_FILE = "points.txt";
 const string HISTORY_FILE = "history.txt";
 const int MAX_POINTS = 20;
+
+string[] nightCount = File.ReadAllLines(HISTORY_FILE);
+int night = nightCount.Length;
+
+string[] lines = File.ReadAllLines(HISTORY_FILE);
+
+System.Console.WriteLine("=== GAME NIGHT LEADERBOARD ===");
+if(night < 1)
+{
+    System.Console.WriteLine("No nights played yet.");
+}
+else
+{
+    System.Console.WriteLine($"Nights played: {night}");
+    foreach(string line in lines)
+    {
+        System.Console.WriteLine($"{line.PadLeft(line.Length + 2)}");
+    }
+}    
+System.Console.WriteLine($"Tonight is Night {night + 1}\n");
+
 
 //**** PART 1 ****
 string[] players = File.ReadAllLines(PLAYERS_FILE);
@@ -71,6 +94,16 @@ System.Console.WriteLine($"Tonight's winner: {winner} with {winningPointstongiht
 
 
 
+string[] entry = {HistoryEntry(night, winner, winningPointstongiht)};
+
+File.AppendAllLines(HISTORY_FILE, entry);
+
+System.Console.WriteLine("Saved points.txt");
+System.Console.WriteLine($"Added to history.txt: {entry[0]}");
+
+
+
+
 
 
 
@@ -113,33 +146,8 @@ static int TotalPoints(string[] points)
     return a + b + c + d; 
 }
 
-static void PartOne()
+
+static string HistoryEntry(int night, string winner, int points)
 {
-string[] players = File.ReadAllLines(PLAYERS_FILE);
-string[] points = File.ReadAllLines(POINTS_FILE);
-int leader = LeaderIndex(points);
-int total = TotalPoints(points);
-
-System.Console.WriteLine("PLAYERS".PadRight(11) + "POINTS");
-for (int i = 0; i < players.Length; i++)
-{
-    System.Console.WriteLine($"{players[i].PadRight(11)}{points[i]}");
+    return $"Night {night +1}: {winner} won with {points} points.";
 }
-
-for (int i = 0; i < players.Length; i++)
-{
-    int point = Convert.ToInt32(points[i]);
-    string player = players[i];
-
-    if(leader == point)
-    {
-        System.Console.WriteLine($"Leader: {player} with {leader} ");
-    }
-}
-System.Console.WriteLine($"Season total: {total}");
-}
-
-// static string HistoryEntry(int night, string winner, int points)
-// {
-    
-// }
